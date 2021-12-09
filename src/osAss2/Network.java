@@ -6,11 +6,38 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Network {
+public class Network{
 
-	static Router router;
-	static ArrayList<Device> devices =new ArrayList<Device>();
+    private GUI gui;
+    static Router router;
+    static ArrayList<Device> devices =new ArrayList<Device>();
 
+    Network(int connections,GUI gui){
+        this.gui=gui;
+        router =new Router(connections,this);
+    }
+
+    Network(GUI gui){
+        this.gui=gui;
+    }
+
+    GUI getGUI(){
+        return this.gui;
+    }
+
+    void createRouter(int connections){
+        router =new Router(connections,this);
+    }
+
+
+    Router getRouter(){
+        return this.router;
+    }
+
+    ArrayList<Device> getDevices(){
+        return this.devices;
+    }
+    /*
 	public static void main(String[] args) throws Exception {
 
 		int i,j;
@@ -37,7 +64,7 @@ public class Network {
 			devices.add(device);
 
 		}
-
+*/
 /*
 		ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -61,7 +88,7 @@ public class Network {
 
 */
 
-
+/*
 		//System.out.println(devices.get(0).getDeviceName()+"\n"+devices.get(0).getRouter());
 		//	devices.get(0).start();
 
@@ -76,5 +103,10 @@ public class Network {
 		//System.out.println(router.getConnections());
 
 	}
+*/
 
+
+    public static void main(String[] args) {
+        new GUI();
+    }
 }
