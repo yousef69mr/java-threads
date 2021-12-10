@@ -1,7 +1,6 @@
 package osAss2;
 
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class Router{
@@ -80,15 +79,9 @@ public class Router{
         }
 
         synchronized (this){
+
+            System.out.println("Connection " +connections+" : "+ device.getDeviceName() +" Logged out");
             connections--;
-
-            if(connections==0){
-                int c =connections+1;
-                System.out.println("Connection " +c+" : "+ device.getDeviceName() +" Logged out");
-            }else{
-                System.out.println("Connection " +connections+" : "+ device.getDeviceName() +" Logged out");
-            }
-
         }
 
         spaces.V();
@@ -153,19 +146,5 @@ public class Router{
     void setSize(int size){
         this.size=size;
     }
-/*
-   int getNumberOfConnectedDevices(){
-        return devices.getValue();
-   }
-*/
-    /*
-   int getConnections(){
-        return this.connections;
-   }
 
-    public Semaphore getSpaces() {
-        return this.spaces;
-    }
-
-     */
 }

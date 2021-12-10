@@ -127,11 +127,11 @@ public class GUI implements ActionListener {
 
         // creating run tab
         JFrame runFrame =new JFrame();
-        runFrame.setSize(1000,500);
+        runFrame.setSize(800,1000);
         runFrame.setLayout(new GridLayout(0,1));
         ArrayList<JPanel> messages =new ArrayList<JPanel>();
-
-
+/*
+        //initialize  the frame
         for (i=0;i<Integer.parseInt(numOfDevices.getText())*4+Integer.parseInt(numOfDevices.getText());i++){
             JLabel runLabel =new JLabel();
             JPanel runPanel =new JPanel();
@@ -141,7 +141,7 @@ public class GUI implements ActionListener {
             runFrame.add(runPanel,BorderLayout.CENTER);
         }
 
-
+*/
 
 
 
@@ -152,9 +152,9 @@ public class GUI implements ActionListener {
 
         /////////////////////////////////////////
 
-        //run program
+        //create threads with data from InputData Frame
         for (i=0;i<Integer.parseInt(numOfDevices.getText());i++){
-            System.out.println("/////////");
+            System.out.println("#########################");
             //String input;
             String[] deviceData =new String[2];
 
@@ -179,36 +179,65 @@ public class GUI implements ActionListener {
 
         }
 
-
+        //run Device thread
         for (i=0;i<network.getDevices().size();i++){
             network.getDevices().get(i).start();
         }
 
         int counter=0;
+/*
+        // filling frame with messages from router
+        while (counter<Integer.parseInt(numOfDevices.getText())*4+Integer.parseInt(numOfDevices.getText())) {
+            if (!network.getRouter().getMessages().isEmpty()) {
+                Component[] messageComponents = messages.get(counter).getComponents();
+                ((JLabel) messageComponents[0]).setText(network.getRouter().getMessages().get(0));
+                ((JLabel) messageComponents[0]).updateUI();
+                System.out.println("Panel Message --> " + network.getRouter().getMessages().get(0));
+
+                runFrame.pack();
 
 
-            while (counter<Integer.parseInt(numOfDevices.getText())*4+Integer.parseInt(numOfDevices.getText())){
-                if(!network.getRouter().getMessages().isEmpty()){
-                    Component[] messageComponents= messages.get(counter).getComponents();
-                    ((JLabel)messageComponents[0]).setText(network.getRouter().getMessages().get(0));
-                    ((JLabel)messageComponents[0]).updateUI();
-                    System.out.println("/////"+network.getRouter().getMessages().get(0));
-
-                    runFrame.pack();
-
-
-                    network.getRouter().getMessages().remove(0);
-                    try {
-                        Thread.sleep(2000);
-                    }catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    //((JLabel)messageComponents[0]).setText("#########################");
-                    counter++;
+                network.getRouter().getMessages().remove(0);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
+                //((JLabel)messageComponents[0]).setText("#########################");
+                counter++;
             }
+
+        }
+*/
+
+
+        //// filling frame directly with messages from router
+        while (counter<Integer.parseInt(numOfDevices.getText())*4+Integer.parseInt(numOfDevices.getText())){
+
+            if(!network.getRouter().getMessages().isEmpty()){
+
+                JLabel runLabel =new JLabel(network.getRouter().getMessages().get(0));
+                JPanel runPanel =new JPanel();
+
+                System.out.println("Panel Message --> "+network.getRouter().getMessages().get(0));
+                runPanel.add(runLabel,BorderLayout.CENTER);
+                runFrame.add(runPanel,BorderLayout.CENTER);
+
+                runFrame.pack();
+
+
+                network.getRouter().getMessages().remove(0);
+                try {
+                    Thread.sleep(2000);
+                }catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                //((JLabel)messageComponents[0]).setText("#########################");
+                counter++;
+            }
+
+        }
 
 
 
@@ -217,17 +246,22 @@ public class GUI implements ActionListener {
     Network getNetwork() {
         return  this.network;
     }
+
     boolean enteredBefore=false;
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if(!connections.getText().isEmpty()&& enteredBefore==false) {
+
             network.createRouter(Integer.parseInt(connections.getText()));
+
+            if(network.getRouter()!=null){
+                System.out.println("Router assigned :)");
+            }
             enteredBefore=true;
         }
-        if(network.getRouter()!=null){
-            System.out.println("Router assigned :)");
-        }
+
         if(actions==0) {
             actions++;
             createInputPanel(Integer.parseInt(numOfDevices.getText()));
