@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class Router{
 
-    private Network network;
+    private final Network network;
     private static int connections;
     private int size ; // the buffer bound
     private static ArrayList<String> messages;
 
-    private Semaphore spaces;
+    private final Semaphore spaces;
   //  Semaphore devices = new Semaphore(0);
 
     Router(int length,Network network){
@@ -24,7 +24,7 @@ public class Router{
     }
 
     ArrayList<String> getMessages(){
-        return this.messages;
+        return messages;
     }
 
     public void process(Device device){
@@ -144,7 +144,11 @@ public class Router{
     }
 
     void setSize(int size){
-        this.size=size;
+        if(size>0){
+            this.size=size;
+        }else {
+            this.size= 1;
+        }
     }
 
 }

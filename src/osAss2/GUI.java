@@ -127,7 +127,7 @@ public class GUI implements ActionListener {
 
         // creating run tab
         JFrame runFrame =new JFrame();
-        runFrame.setSize(800,1000);
+        runFrame.setSize(2000,2000);
         runFrame.setLayout(new GridLayout(0,1));
         ArrayList<JPanel> messages =new ArrayList<JPanel>();
 /*
